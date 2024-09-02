@@ -1,0 +1,91 @@
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff; 
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+
+.card {
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+
+.card h1 {
+  font-size: 26px;
+  color: #34495e;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.card input {
+  width: 42%;
+  padding: 12px;
+  margin: 0 10px 20px 0; 
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+  transition: border 0.3s ease;
+}
+
+.card input:focus {
+  border: 1px solid #2980b9;
+}
+
+
+.card button {
+  padding: 12px 20px;
+  background-color: #2980b9;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 20px; 
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card button:hover {
+  background-color: #1f6391;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.chart-container {
+  background-color: #fff; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 30px;
+  height: 400px; 
+}
+
+
+@media (max-width: 768px) {
+  .card input {
+      width: 90%;
+      margin-bottom: 15px;
+  }
+}
