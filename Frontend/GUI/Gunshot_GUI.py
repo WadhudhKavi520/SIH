@@ -8,10 +8,6 @@ import folium
 from tkinter import filedialog
 from geopy.distance import great_circle
 from datetime import datetime
-from folium.plugins import MarkerCluster, HeatMap
-import matplotlib.pyplot as plt
-import io
-from PIL import Image
 
 class PolarPlotter:
     def __init__(self, root):
@@ -167,42 +163,32 @@ class PolarPlotter:
         # Add the current location marker
         folium.Marker([current_lat, current_lon], popup="Current Location", icon=folium.Icon(color='green')).add_to(m)
 
-        # Add markers for each point with clustering
-        marker_cluster = MarkerCluster().add_to(m)
-
         # Get current time
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Prepare data for heatmap
-        heat_data = []
-
+        # Add markers for each point
         for theta_rad, r in self.points:
             # Convert polar coordinates to lat/lon for simplicity
             lat = current_lat + r * np.sin(theta_rad) * 0.01  # Adjust factor as needed
             lon = current_lon + r * np.cos(theta_rad) * 0.01  # Adjust factor as needed
 
-            # Calculate distance from current location
-            distance = great_circle((current_lat, current_lon), (lat, lon)).kilometers
+            # Calculate the distance to the current location
+            distance = great_circle((current_lat, current_lon), (lat, lon)).km
 
-            # Add markers to cluster
+            # Create a popup with latitude, longitude, distance, and current time
+            popup_text = (
+                f"Latitude: {lat:.4f}\n"
+                f"Longitude: {lon:.4f}\n"
+                f"Distance: {distance:.2f} km\n"
+                f"Time: {current_time}"
+            )
+
+            # Add a marker for each enemy point
             folium.Marker(
                 [lat, lon],
-                popup=f"Radius: {r}, Angle: {np.rad2deg(theta_rad)}\nDistance: {distance:.2f} km\nTime: {current_time}",
+                popup=popup_text,
                 icon=folium.Icon(color='red')
-            ).add_to(marker_cluster)
-
-            # Add data to heatmap
-            heat_data.append([lat, lon])
-
-        # Add heatmap to the map
-        if heat_data:
-            HeatMap(heat_data).add_to(m)
-
-        # Draw lines from current location to each enemy location
-        for theta_rad, r in self.points:
-            lat = current_lat + r * np.sin(theta_rad) * 0.01  # Adjust factor as needed
-            lon = current_lon + r * np.cos(theta_rad) * 0.01  # Adjust factor as needed
-            folium.PolyLine([(current_lat, current_lon), (lat, lon)], color='cyan', weight=2.5, opacity=0.8).add_to(m)
+            ).add_to(m)
 
         # Save map to an HTML file
         map_file = filedialog.asksaveasfilename(defaultextension=".html", filetypes=[("HTML files", "*.html")])
